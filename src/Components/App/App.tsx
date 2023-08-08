@@ -20,11 +20,9 @@ function App() {
     <div className='flex flex-col justify-center items-center bg-blue-200 h-screen'>
       <h1 className='text-2xl mb-4'>Список дел</h1>
       <div className='flex flex-col bg-gray-100 h-fit p-4 rounded-lg'>
-        <div className=''>
-          <AddTodoForm />
-          <TodoListControls />
-          <TodoList />
-        </div>
+        <AddTodoForm />
+        <TodoListControls />
+        <TodoList />
       </div>
     </div>
   );

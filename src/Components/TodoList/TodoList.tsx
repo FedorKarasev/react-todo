@@ -7,9 +7,13 @@ export const TodoList = () => {
 
   return (
     <div className='flex flex-col'>
-      {todos.map((todo: ITodo) => (
-        <TodoItem key={todo.id} todo={todo} />
-      ))}
+      {todos.length ? (
+        todos.map((todo: ITodo) => <TodoItem key={todo.id} todo={todo} />)
+      ) : (
+        <div data-testid='notodos' className='mt-6 text-center'>
+          Нет никаких дел. Добавьте первое.
+        </div>
+      )}
     </div>
   );
 };

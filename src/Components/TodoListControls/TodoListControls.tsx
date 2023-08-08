@@ -47,7 +47,12 @@ export const TodoListControls = () => {
           Все задачи
         </a>
       </div>
-      <a href='#' onClick={clearTodoList} className='mt-2 w-1/2 px-5 py-2 rounded-md bg-gray-300 text-center'>
+      <a
+        href='#'
+        data-testid='test-clear'
+        onClick={clearTodoList}
+        className='mt-2 w-1/2 px-5 py-2 rounded-md bg-gray-300 text-center'
+      >
         Очистить список
       </a>
     </div>
