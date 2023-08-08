@@ -1,22 +1,41 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/redux';
+import { checkTodo, setTodoList, updateTodo } from '../../store/reducers/todoListSlice';
+import { ITodo } from '../../store/models/ITodo';
 
-export const TodoItem = ({ todo, onDeleteTodo, onCheckTodo, onEditTodo }) => {
+export const TodoItem = ({ todo }: { todo: ITodo }) => {
+  const dispatch = useAppDispatch();
+
   const completedClasses = todo.isCompleted ? 'line-through text-gray-300' : '';
-
   const [isEditing, setIsEditing] = useState(false);
-  const newTitleRef = useRef('');
+  const todoList = useAppSelector((state) => state.todoListReducer.todoList);
 
-  function startEditTodoHandler(id) {
+  const newTitleRef = useRef<HTMLTextAreaElement>(null);
+
+  function startEditTodoHandler(id: number) {
     setIsEditing(true);
   }
 
-  function finishEditTodoHandler(id) {
+  function finishEditTodoHandler(id: number) {
+    if (!newTitleRef.current) return;
     if (!newTitleRef.current.value.length) return;
+
     setIsEditing(false);
-    onEditTodo(id, newTitleRef.current.value);
+
+    dispatch(updateTodo({ id, title: newTitleRef.current.value }));
   }
+
+  const onDeleteTodo = (id: number) => {
+    const newTodoList = todoList.filter((todo) => todo.id != id);
+    dispatch(setTodoList(newTodoList));
+    localStorage.setItem('todoList', JSON.stringify(newTodoList));
+  };
+
+  const onCheckTodo = (id: number) => {
+    dispatch(checkTodo({ id }));
+  };
 
   return (
     <div className='flex flex-row justify-between align-center py-2 px-4 my-2 bg-white '>
